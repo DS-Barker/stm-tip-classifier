@@ -26,11 +26,10 @@ SOFTWARE.
 
 If you use this software in your research, please cite:
 
-Dylan S. Barker (2024). "Automation and machine learning methods for scanning 
-probe microscopy". PhD Thesis, University of Leeds.
+Dylan S. Barker (2024). "Automating Scanning Tunnelling Microscopy: A comparative Study of Machine Learning and Deterministic Methods". PhD Thesis, University of Leeds.
 
 @phdthesis{barker2024automation,
-  title={Automation and machine learning methods for scanning probe microscopy},
+  title={Automating Scanning Tunnelling Microscopy: A comparative Study of Machine Learning and Deterministic Methods},
   author={Barker, Dylan S.},
   year={2024},
   school={University of Leeds}
