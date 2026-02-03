@@ -1,0 +1,56 @@
+name: stm-classifier
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Python Version
+  - python=3.9.13
+  
+  # Core Scientific Stack
+  - numpy=1.23.0
+  - scipy=1.9.0
+  - pandas=1.5.0
+  
+  # Deep Learning
+  - tensorflow=2.10.0
+  - keras=2.10.0
+  
+  # Image Processing
+  - pillow=9.2.0
+  - opencv=4.6.0
+  - scikit-image=0.19.3
+  
+  # Machine Learning
+  - scikit-learn=1.1.2
+  - joblib=1.2.0
+  
+  # Visualization
+  - matplotlib=3.5.3
+  - seaborn=0.12.0
+  
+  # Jupyter Support
+  - jupyter=1.0.0
+  - ipykernel=6.15.0
+  - notebook=6.4.12
+  
+  # Utilities
+  - tqdm=4.64.0
+  - pyyaml=6.0
+  
+  # Additional packages via pip
+  - pip=22.2.2
+  - pip:
+      - spiepy==0.1.0  # SPM file handling (not on conda)
+      - imgaug==0.4.0  # Data augmentation
+      - python-dotenv==0.20.0
+
+# Optional: GPU Configuration
+# If you have NVIDIA GPU with CUDA support, add:
+#   - cudatoolkit=11.2
+#   - cudnn=8.1.0
+
+# Notes:
+# 1. To create environment: conda env create -f environment.yml
+# 2. To activate: conda activate stm-classifier
+# 3. To update: conda env update -f environment.yml --prune
+# 4. To export your exact versions: conda env export > environment_exact.yml
