@@ -6,6 +6,7 @@ The LabVIEW automation tool provides real-time tip classification during STM exp
 ## Requirements
 - LabVIEW 2021 or later
 - Nanonis SPM software
+- Nanonis Programming Interface V5 (5.12.203.120 or later)
 - Python 3.9+ with packages installed
 - Access to experimental STM system
 
@@ -27,11 +28,6 @@ The LabVIEW automation tool provides real-time tip classification during STM exp
   - Interfaces with Nanonis
   - Saves image to disk
   - Returns file path
-
-- **`python_caller.vi`**: Python execution wrapper
-  - Calls Python scripts via system exec
-  - Parses JSON output
-  - Error handling
 
 ## Setting Up the Automation Tool
 
