@@ -163,6 +163,9 @@ def _save_training_plots(history, output_dir, model_name):
         history: Keras training history
         output_dir (Path): Directory to save plots
         model_name (str): Base name for plot file
+
+    Returns: 
+        None
     """
     import matplotlib.pyplot as plt
     from pathlib import Path
@@ -213,6 +216,9 @@ def _save_training_history(history, output_dir, model_name):
         history: Keras training history
         output_dir (Path): Directory to save CSV
         model_name (str): Base name for CSV file
+    
+    Returns:
+        None
     """
     import pandas as pd
     from pathlib import Path
