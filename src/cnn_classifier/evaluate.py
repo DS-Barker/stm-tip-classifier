@@ -107,8 +107,8 @@ def evaluate_model(model_path, test_data_dir, target_size=(700, 700), batch_size
 if __name__ == "__main__":
 
     # Change later to fit with Git structure
-    DATA_DIR = Path(r'E:\Python_scripts\Machine_Learning\Open-Source_data\Aldritt\Data\Test')
-    MODEL_PATH = Path(r"E:\Python_scripts\Machine_Learning\Aldritt\Output\Main_unfiltered\2023-11-29\10-00\model.h5")
+    DATA_DIR = Path("INSERT TEST DATA DIRECTORY HERE")
+    MODEL_PATH = Path("INSERT PATH TO .h5 MODEL FILE HERRE")
     
     results = evaluate_model(
         model_path=MODEL_PATH,
