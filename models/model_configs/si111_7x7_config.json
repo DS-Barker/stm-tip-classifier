@@ -1,0 +1,65 @@
+{
+  "model_name": "si111_7x7_final",
+  "description": "Final CNN model for Si(111)-7×7 surface tip classification from PhD thesis. Architecture optimized through systematic hyperparameter search.",
+  "surface": "Si(111)-7×7",
+  "architecture": {
+    "num_conv_layers": 5,
+    "conv_filters": [20, 40, 60, 80, 100],
+    "conv_kernel_size": [3, 3],
+    "pool_size": [2, 2],
+    "activation_conv": "relu",
+    "num_dense_layers": 3,
+    "dense_neurons": [32, 64, 128],
+    "activation_dense": "relu",
+    "dropout_rates": [0.5, 0.3, 0.3],
+    "output_activation": "sigmoid"
+  },
+  "training": {
+    "epochs": 100,
+    "batch_size": 32,
+    "input_shape": [700, 700, 1],
+    "optimizer": "adam",
+    "loss": "binary_crossentropy",
+    "metrics": ["accuracy"],
+    "selection_criterion": "highest_precision"
+  },
+  "data_augmentation": {
+    "horizontal_flip": true,
+    "vertical_flip": true,
+    "rotation_90": true,
+    "augmentation_factor": 8
+  },
+  "dataset": {
+    "total_samples": 873,
+    "good_samples": 265,
+    "bad_samples": 608,
+    "train+val": 699,
+    "train:val_split": "90:10",
+    "image_size_pixels": [700, 700],
+    "image_size_nm": [19.4, 19.4]
+    }
+  },
+  "performance": {
+    "test_set_size": 174,
+    "accuracy": 0.96,
+    "precision": 0.92,
+    "auroc": 0.98,
+    "comparison_to_human_expert": {
+      "human_accuracy": 0.92,
+      "human_precision": 0.93
+    }
+  },
+  "notes": [
+    "Same architecture used for both Si(111)-7×7 and B:Si datasets",
+    "Final weights selected based on highest precision during training",
+    "18 total layers: 5 conv-pool blocks, 1 flatten, 3 dense-dropout, 1 output",
+    "Training done at room temperature on constant-current STM topography"
+  ],
+  "thesis_reference": {
+    "title": "Automating Scanning Tunnelling Microscopy: A comparative Study of Machine Learning and Deterministic Methods",
+    "author": "Dylan S. Barker",
+    "year": 2024,
+    "institution": "University of Leeds",
+    "figure": "Figure 5.19"
+  }
+}
