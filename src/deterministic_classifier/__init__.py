@@ -8,7 +8,7 @@ as alternatives to deep learning.
 
 
 from ..data_processing.utils import auto_unit
-from ..data_processing.nanonis_utils import get_image_data, Get_ranges
+from ..data_processing.nanonis_utils import get_image_data, get_ranges
 from .cross_correlation import load_ref, ccr_topn
 
 __all__ = [

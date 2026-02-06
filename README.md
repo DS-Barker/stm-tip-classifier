@@ -55,7 +55,7 @@ Comparison across three classification methods on silicon surfaces:
 git clone https://github.com/yourusername/stm-tip-classifier.git
 cd stm-tip-classifier
 
-# Create conda environment
+# Create conda environment - MUST BE NAMED AS stm-classifier for LabVIEW script to work.
 conda env create -f environment.yml
 conda activate stm-classifier
 

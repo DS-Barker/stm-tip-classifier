@@ -98,31 +98,29 @@ def normxcorr2(template, image, mode="full"):
     
     return out
 
-
 def load_ref(ref_name):
     """
     Load a reference image from a numpy file.
     
     Args:
         ref_name (str or Path): Name of reference image file (.npy).
-            If string: looks in 'Python_scripts/My_common_functions/ref_arrays/'
+            If string: looks in 'stm-tip-classifier\src\deterministic_classifier\refs'
             If Path: uses path directly
     
     Returns:
         np.ndarray: Reference image as numpy array
     
     Example:
-        >>> ref = load_ref('Si-B_new.npy')
+        >>> ref = load_ref('Si111-cornerhole.npy')
         >>> print(ref.shape)
         (700, 700)
     """
     if type(ref_name) == str:
-        ref_path = Path(os.getcwd()).joinpath('Python_scripts/My_common_functions/ref_arrays').joinpath(ref_name)
+        ref_path = Path(os.getcwd()).joinpath(r'src\deterministic_classifier\refs').joinpath(ref_name)
     else:
         ref_path = ref_name
         
     return np.load(ref_path)
-
 
 def ccr_topn(ref, img, top_n=20, min_peak_sep=[20, 20], with_ims=False, 
              with_positions_plus_FM=False, zero_border=True):
@@ -223,7 +221,6 @@ def ccr_topn(ref, img, top_n=20, min_peak_sep=[20, 20], with_ims=False,
         return maxima_vals, maxima_positions, ccr_fm
 
     return maxima_vals
-
 
 def find_max_CCR(img, refs, refs_angles, input_info, ref_info):
     """
@@ -335,7 +332,6 @@ def find_max_CCR(img, refs, refs_angles, input_info, ref_info):
     else:
         return spherical_ccr, 'Same Answer', best_angle, img_small, best_ccr[2]
 
-
 def auto_downscaler(input_img, input_info, ref, ref_info):
     """
     Automatically match image resolutions by downscaling the higher-resolution image.
@@ -384,7 +380,6 @@ def auto_downscaler(input_img, input_info, ref, ref_info):
         scale_factor = input_dist_per_pix / ref_dist_per_pix 
         input_out = cv2.resize(input_img, (0, 0), fx=scale_factor, fy=scale_factor)
         return input_out, ref, which_downscale
-
 
 def find_molecules(input_im, refs, refs_angles, input_info, ref_info, threshold, max_output=5):
     """

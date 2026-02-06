@@ -172,7 +172,6 @@ def train_val_generators(training_dir,
     
     return train_generator, validation_generator
 
-
 def create_test_generator(test_dir, batch_size=32, target_size=(140, 140)):
     """
     Creates a test data generator for final model evaluation.
@@ -213,7 +212,6 @@ def create_test_generator(test_dir, batch_size=32, target_size=(140, 140)):
     print(f"Class indices: {test_generator.class_indices}\n")
     
     return test_generator
-
 
 def get_generator_stats(generator):
     """

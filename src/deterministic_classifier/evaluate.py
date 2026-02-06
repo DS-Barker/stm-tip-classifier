@@ -31,7 +31,7 @@ import os
 import site
 
 from ..data_processing.utils import auto_unit
-from ..data_processing.nanonis_utils import get_image_data, Get_ranges
+from ..data_processing.nanonis_utils import get_image_data, get_ranges
 from .cross_correlation import load_ref, ccr_topn
 
 
@@ -111,12 +111,11 @@ def evaluate_deterministic(test_data_dir, sxm_dir, ref_filename, ccr_threshold=0
             # Get the image data
             img = get_image_data(CURRENT_FILE, creepcut=True, thresh_type='median_thresh')
     
-            Scan_pixels, Scan_range = Get_ranges(CURRENT_FILE)
+            Scan_pixels, Scan_range = get_ranges(CURRENT_FILE)
     
             dist_per_pixel = Scan_range[0]/Scan_pixels[0]
-            prefix, factor = auto_unit(dist_per_pixel, 'm')
     
-            # Calculate the CCR 
+            # Calculate the CCR S
             maxima_vals = ccr_topn(ref, img, top_n=5, with_ims=False)
             CCR = round(mean(maxima_vals), 3)
 

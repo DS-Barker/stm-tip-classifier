@@ -57,6 +57,10 @@ Outputs:
 Author: Dylan S. Barker, University of Leeds, 2024
 """
 
+import matplotlib.pyplot as plt
+from pathlib import Path
+import pandas as pd
+
 def train_single_model(model, 
                       train_generator, 
                       validation_generator,
@@ -110,9 +114,6 @@ def train_single_model(model,
         >>> final_acc = history.history['val_accuracy'][-1]
         >>> print(f"Final validation accuracy: {final_acc:.2%}")
     """
-    from pathlib import Path
-    import matplotlib.pyplot as plt
-    import pandas as pd
     
     # Train the model
     print(f"\nTraining model for {epochs} epochs...")
@@ -154,7 +155,6 @@ def train_single_model(model,
     
     return model, history
 
-
 def _save_training_plots(history, output_dir, model_name):
     """
     Create and save accuracy and loss plots.
@@ -167,8 +167,6 @@ def _save_training_plots(history, output_dir, model_name):
     Returns: 
         None
     """
-    import matplotlib.pyplot as plt
-    from pathlib import Path
     
     output_dir = Path(output_dir)
     
@@ -207,7 +205,6 @@ def _save_training_plots(history, output_dir, model_name):
     
     print(f"Training plots saved to: {plot_path}")
 
-
 def _save_training_history(history, output_dir, model_name):
     """
     Save training history as CSV file.
@@ -220,8 +217,6 @@ def _save_training_history(history, output_dir, model_name):
     Returns:
         None
     """
-    import pandas as pd
-    from pathlib import Path
     
     output_dir = Path(output_dir)
     

@@ -7,7 +7,7 @@ import spiepy
 import cv2
 import statistics as st
 
-def Get_ranges(filename):
+def get_ranges(filename):
 
     ''' Function which returns the scan range and scan pixel values for an sxm file. 
 
@@ -65,6 +65,40 @@ def Get_ranges(filename):
                 Scan_offset[1] = Scan_offset[1] - Scan_range[1]/2
                 
     return Scan_pixels, Scan_range, Scan_offset
+
+def get_times(filename):
+
+    ''' Function which returns the start time and total scan time for an sxm file. 
+
+    filename - Input path for sxm file 
+    '''
+
+    file_path = Path(filename) #pathlib.Path(input_folder + filename)
+        
+    if file_path.exists:
+        with open(file_path, 'rb') as fid:
+            fid = fid.readlines()
+    else:
+                print ("File does not exist")
+    
+    Stop = fid.index(b':SCANIT_END:\n')
+    Endline = Stop + 2
+    Gap = Stop - 1
+
+    for i in range(0, Endline):
+        if i == Gap:
+            continue
+        
+        s1 = fid[i]
+        s1 = s1.decode('utf-8')
+
+        if s1.endswith(':\n') == True:
+            if s1 == ':REC_TIME:\n':
+                Scan_start = fid[i+1].decode('utf-8')
+            elif s1 == ':ACQ_TIME:\n':
+                Scan_time = fid[i+1].decode('utf-8')
+
+    return Scan_start, Scan_time
 
 def get_image_data(filepath, channel = 'Z', thresh_type='raw_flat', sig = 2, creepcut=False, phys_thresh_vals = None):
 
@@ -151,8 +185,6 @@ def get_image_data(filepath, channel = 'Z', thresh_type='raw_flat', sig = 2, cre
 
             if thresh == 'raw_plane_flat':
                 img_flat, _ = spiepy.flatten_xy(img)
-                # mask, _ = spiepy.mask_by_troughs_and_peaks(img_flat)
-                # img_flat, _ = spiepy.flatten_xy(img, mask)
                 img_flat_norm = cv2.normalize(img_flat, None, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX) # type: ignore
                 output_ims.append(img_flat_norm)
 
@@ -226,9 +258,6 @@ def get_image_data(filepath, channel = 'Z', thresh_type='raw_flat', sig = 2, cre
 
     if thresh_type == 'raw_plane_flat':         #Neeeds fixing. 
         img_flat, _ = spiepy.flatten_xy(img)
-        # mask, _ = spiepy.mask_by_troughs_and_peaks(img_flat)
-        # img_flat, _ = spiepy.flatten_xy(img, mask)
-        
         return cv2.normalize(img_flat, None, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX) # type: ignore
     
     img_flat, _ = flatten_by_line(img)
@@ -302,7 +331,6 @@ def flatten_by_line(im):
     '''
     
     rows, cols = im.shape
-    #corrected_row = [0 for value in range(0, cols)]
     flattened_im = [[0 for x in range(0,cols)] for y in range(0, rows)]
     differece_im = [[0 for x in range(0,cols)] for y in range(0, rows)]
     
@@ -313,3 +341,76 @@ def flatten_by_line(im):
             differece_im[row][col] = median
 
     return np.array(flattened_im), np.array(differece_im)
+
+def detect_tip_change(im, tc_min=5, boundary = 2.0e-11, return_tc_positions = False, at_all = True):
+    ''' Function to detect whether a tip change has occurred in a scan. Newer version checks to make sure the tip change is a continuous change and not just a single line spike or instability 
+
+    Args: 
+        im::npy_arr
+            Input image
+        tc_min::int
+            number of pixels below which a spike isn't considered a tip change
+        boundary::float
+            Threshold at which a tip change would be detected between successive lines in a scan. If not specified boundary = 2.0e-11. 
+        at_all::bool
+            Boolean value to decide whether to check for tip changes at all or consistant tip changes. 
+
+    Returns: 
+        tc_position::[int,...] 
+            list containing the line numbers of all tip changes in a scan.
+        tc_detected::Bool 
+            True if tc detected, False if not.
+
+    '''
+    
+    tc_detected = False
+    bools = False
+
+    img_flat, img_diff = flatten_by_line(im)
+
+    # fig, ax = plt.subplots(1,2)
+    # ax[0].imshow(img_diff)
+    # ax[1].plot(img_diff[:,100])
+    # plt.show()
+
+
+
+    rows, cols = im.shape
+
+    # img_diff = np.flip(img_diff, 0)
+    line_scan = img_diff[:,100]
+
+    tc_positions = []
+
+    for line in range(len(line_scan)):
+        if line < (rows - 2):
+            line_diff = abs(line_scan[line] - line_scan[line+1]) 
+
+            if line_diff > boundary:
+                # print(line_diff)
+                tc_positions.append(line)
+
+    if not at_all:
+        for index, tc in enumerate(tc_positions):
+            if index == len(tc_positions)-1:
+                continue
+            
+            if index == 0:
+                if not tc_positions[index+1]-(tc_min+1) <= tc <= tc_positions[index+1]-1:
+                    tc_detected = True
+            else:
+                if not tc_positions[index+1]-(tc_min+1) <= tc <= tc_positions[index+1]-1:
+                    bools = True
+                if bools:
+
+                    if not tc_positions[index-1]+1 <= tc <= tc_positions[index-1]+(tc_min+1):
+                        tc_detected = True
+                bools = False
+    else:
+        if len(tc_positions) != 0:
+            tc_detected = True
+
+    if return_tc_positions:
+        return tc_positions, tc_detected
+    else:
+        return tc_detected

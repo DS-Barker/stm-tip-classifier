@@ -2,6 +2,8 @@ from matplotlib.colors import ListedColormap
 import numpy as np 
 from pathlib import Path
 
+from skimage.registration import phase_cross_correlation
+
 def auto_unit(num, siUnit=''):
     """
     A Phil Blowey function to convert numbers and units from SI units into units with prefixes. Made by Phil Blowey.

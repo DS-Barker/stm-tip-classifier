@@ -4,16 +4,12 @@ channels:
   - defaults
 dependencies:
   # Python Version
-  - python=3.9.13
+  - python=3.9
   
   # Core Scientific Stack
   - numpy=1.23.0
   - scipy=1.9.0
   - pandas=1.5.0
-  
-  # Deep Learning
-  - tensorflow=2.10.0
-  - keras=2.10.0
   
   # Image Processing
   - pillow=9.2.0
@@ -22,7 +18,6 @@ dependencies:
   
   # Machine Learning
   - scikit-learn=1.1.2
-  - joblib=1.2.0
   
   # Visualization
   - matplotlib=3.5.3
@@ -36,21 +31,33 @@ dependencies:
   # Utilities
   - tqdm=4.64.0
   - pyyaml=6.0
-  
-  # Additional packages via pip
-  - pip=22.2.2
+  - csaps
+
+  # Pip (for TensorFlow and other packages)
+  - pip
   - pip:
-      - spiepy==0.1.0  # SPM file handling (not on conda)
-      - imgaug==0.4.0  # Data augmentation
+      # Deep Learning (install via pip - more reliable on Windows)
+      - tensorflow==2.10.0
+      - keras==2.10.0
+      
+      # SPM specific modules
+      - spiepy
+      - pySPM
+      - access2thematrix
+      
+      # Data augmentation  
+      - imgaug==0.4.0
+      
+      # Utilities
       - python-dotenv==0.20.0
 
-# Optional: GPU Configuration
-# If you have NVIDIA GPU with CUDA support, add:
-#   - cudatoolkit=11.2
-#   - cudnn=8.1.0
-
 # Notes:
-# 1. To create environment: conda env create -f environment.yml
-# 2. To activate: conda activate stm-classifier
-# 3. To update: conda env update -f environment.yml --prune
-# 4. To export your exact versions: conda env export > environment_exact.yml
+# 1. TensorFlow moved to pip because conda has issues on Windows
+# 2. To create environment: conda env create -f environment.yml
+# 3. To activate: conda activate stm-classifier
+# 4. To update: conda env update -f environment.yml --prune
+
+# GPU Support (Optional):
+# If you have NVIDIA GPU with CUDA 11.2:
+# 1. Install CUDA 11.2 and cuDNN 8.1 from NVIDIA website
+# 2. Install GPU version: pip install tensorflow-gpu==2.10.0
